@@ -1,16 +1,25 @@
-# React + Vite
+# MarkLens Enterprise Grader
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack, AI-powered Optical Character Recognition (OCR) grading system built for educational institutions. This platform allows educators to upload handwritten student scripts, automatically extract text, and grade them against strict logical marking schemes using Google Gemini's multimodal AI.
 
-Currently, two official plugins are available:
+## 🚀 Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* **Intelligent OCR Extraction:** Leverages Google Gemini Vision to accurately transcribe handwritten student responses.
+* **Automated Semantic Grading:** Grades transcribed text against predefined marking scheme logic, rather than simple keyword matching.
+* **Offline-First Resiliency:** Utilizes IndexedDB to queue and cache grading tasks if the network connection drops, automatically syncing to the cloud when reconnected.
+* **Intelligent Retry Loop Engine:** Implements exponential backoff to handle AI API rate limits and network timeouts without disrupting the user experience.
+* **Secure API Proxy:** Routes all AI traffic through Supabase Edge Functions to securely hide proprietary API keys from the client browser.
+* **Dynamic Data Export:** Generates downloadable, fully justified PDF and CSV grading reports.
 
-## React Compiler
+## 🛠️ Tech Stack & Architecture
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* **Frontend Core:** React (Vite), JavaScript (ES6+), React Context API
+* **Styling & UI:** Custom CSS (Glassmorphism, Dark Mode), Lucide React
+* **Backend & Database:** Supabase (PostgreSQL), Supabase Edge Functions (Deno)
+* **AI Engine:** Google Gemini (1.5 Flash / 2.0 Flash)
+* **Local Data Management:** IndexedDB (`idb`) for offline sync queues.
 
-## Expanding the ESLint configuration
+## 🔐 Security & Data Integrity
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **Zero-Trust Client:** No API keys are exposed in the frontend. All AI calls are strictly authenticated and proxied through serverless edge functions.
+2. **Atomic Database Updates:** Prevents database bloat and duplication by dynamically identifying and overwriting partial-error historical records during retry workflows.
